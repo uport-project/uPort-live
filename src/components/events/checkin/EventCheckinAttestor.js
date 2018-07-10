@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Connect, SimpleSigner, Credentials, QRUtil } from 'uport-connect'
+import { incrementCheckins } from '../../misc'
 import { connect } from 'react-redux'
-import { firebaseApp } from '../../user'
 
 import { endCheckin } from './actions'
 
@@ -93,17 +93,12 @@ export class EventCheckinAttestor extends Component {
     this.eventIdentity.attestCredentials({
       sub: address,
       claim: this.claim
-    }).then(function(){
-      const db = firebaseApp.database().ref('/');
-      db.once("value", function(snapshot){
-              let data = snapshot.val()
-              data['badgesCollected'] += 1
-              db.set(data)
-      })
+    }).then(() => {
+      // Only increment checkins if the credential is accepted
+      incrementCheckins()
+      // Update the checkin count
+      this.setState({checkinCount: checkinCount + 1})
     })
-
-    // Update the checkin count
-    this.setState({checkinCount: checkinCount + 1})
 
     // Restart the flow
     this.waitForCheckin()
@@ -115,7 +110,6 @@ export class EventCheckinAttestor extends Component {
     const {checkinCount, QR} = this.state
     const location = eventData && eventData.location
     const about = eventData && eventData.about
-    console.log(eventData)
 
     return (
       <main className="container">
