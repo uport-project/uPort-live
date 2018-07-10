@@ -5,7 +5,7 @@ import LogoutButton from './logout/LogoutButton'
 import { 
   uport, 
   UserIsAuthenticated, UserIsNotAuthenticated, 
-  HiddenOnlyAuth, VisibleOnlyAuth 
+  HiddenOnlyAuth, VisibleOnlyAuth, firebaseApp 
 } from './util'
 
 import { loginUser } from './login/actions'
@@ -20,4 +20,4 @@ export {
 }
 
 /** Export actions and reducer */
-export { loginUser, logoutUser, userReducer, uport }
+export { loginUser, logoutUser, userReducer, uport,firebaseApp }

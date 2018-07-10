@@ -8,7 +8,7 @@ import moment from 'moment'
 // import { createEventIdentity } from './muport-id'
 import { uploadToIpfs } from '../../misc'
 import { createEvent } from './actions'
-import { uport, web3 } from '../../user'
+import { uport, web3, firebaseApp } from '../../user'
 
 import loadingGif from '../../../img/loading.gif'
 import uploadIcon from '../../../img/upload.png'
@@ -108,6 +108,18 @@ class EventCreator extends Component {
   }
 
   /**
+   * Update statistics
+   */
+  updateStats() {
+    const db = firebaseApp.database().ref('/');
+    db.once("value", function(snapshot){
+            let data = snapshot.val()
+            data['eventsCreated'] += 1
+            db.set(data)
+    })
+  }
+
+  /**
    * Issue an event ownership credential, indicating the creation of an event.
    * The fields of the event ownership credential are populated by the controlled fields
    * of the input form
@@ -148,6 +160,7 @@ class EventCreator extends Component {
       }
     }).then(() => {
       createEvent(eventDetails)
+      this.updateStats()
       browserHistory.push('/dashboard')
     })
     // .catch((err) => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Connect, SimpleSigner, Credentials, QRUtil } from 'uport-connect'
 import { connect } from 'react-redux'
+import { firebaseApp } from '../../user'
 
 import { endCheckin } from './actions'
 
@@ -92,6 +93,13 @@ export class EventCheckinAttestor extends Component {
     this.eventIdentity.attestCredentials({
       sub: address,
       claim: this.claim
+    }).then(function(){
+      const db = firebaseApp.database().ref('/');
+      db.once("value", function(snapshot){
+              let data = snapshot.val()
+              data['badgesCollected'] += 1
+              db.set(data)
+      })
     })
 
     // Update the checkin count

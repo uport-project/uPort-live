@@ -1,5 +1,6 @@
 import { Connect, SimpleSigner } from 'uport-connect'
 import { Credentials } from 'uport'
+import firebase from 'firebase'
 
 /**********************************************************************
  * Use a client-side signer with a junk key.
@@ -20,6 +21,13 @@ export const uport = new Connect('uPort Live', {
   network: 'rinkeby',
   signer: signer
 })
+
+var config = {
+  apiKey: process.env.APIKEY,
+  authDomain: "uport-live.firebaseapp.com",
+  databaseURL: "https://uport-live.firebaseio.com/",
+};
+export const firebaseApp = firebase.initializeApp(config)
 
 // A web3 provider in case you need it
 export const web3 = uport.getWeb3()

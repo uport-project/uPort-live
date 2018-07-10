@@ -16,7 +16,7 @@
     "cross-spawn": "4.0.2",
     "css-loader": "0.26.0",
     "detect-port": "1.0.1",
-    "dotenv": "2.0.0",
+    "dotenv": "^2.0.0",
     "eslint": "3.8.1",
     "eslint-config-react-app": "^0.5.0",
     "eslint-loader": "1.6.0",
@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "ethr-did": "^0.0.5",
+    "firebase": "^5.2.0",
     "font-awesome": "^4.7.0",
     "ipfs-api": "^22.2.1",
     "markdown-to-jsx": "^6.6.8",
