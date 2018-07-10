@@ -56,7 +56,7 @@ function sortEvents(events) {
 
   // Split by active/past
   for (const e of events) {
-    if (moment(e.endDate).isSameOrAfter())
+    if (moment(e.endDate).isSameOrAfter(today))
       activeEvents.push(e)
     else
       pastEvents.push(e)

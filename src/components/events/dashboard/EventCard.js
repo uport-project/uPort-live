@@ -57,12 +57,12 @@ const EventCard = ({beginCheckin, isActive, ...eventData}) => {
  * @param {String} desc -- description of event
  */
 function shortenDescription(desc, length=150) {
-  if (desc.length <= length + 3) {
+  if (!desc || desc.length <= length + 3) {
     return desc
   }
 
   // trim the string to the maximum length
-  let trimmedString = desc.substr(0, length);
+  let trimmedString = desc.substr(0, length)
 
   //re-trim if we are in the middle of a word
   trimmedString = trimmedString.substr(0, Math.min(trimmedString.length, trimmedString.lastIndexOf(" ")))

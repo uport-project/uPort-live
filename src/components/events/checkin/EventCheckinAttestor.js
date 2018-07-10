@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Connect, SimpleSigner, Credentials, QRUtil } from 'uport-connect'
 import { connect } from 'react-redux'
-
+import Keyring from 'muport-core/lib/keyring'
 import { endCheckin } from './actions'
 
 import uPortLogo from '../../../img/uport-logo.svg'
@@ -46,15 +46,18 @@ export class EventCheckinAttestor extends Component {
   createEventIdentity(props) {
     // Extract relevant data from the owner's event credential
     const {identifier, ...details} = props.eventData
-
+    
     // Build the credential to be issued to people
     this.claim = {
       uportLiveAttendance: details
     }
 
+    // Generate the private key from the mnemonic
+    const {did, mnemonic} = identifier
+    const keyring = new Keyring({mnemonic})
+
     // Create a connect instance for the Event's keypair
-    const {did, privateKey} = identifier
-    const signer = new SimpleSigner(privateKey)
+    const signer = keyring.getJWTSigner()
 
     this.eventIdentity = new Connect(details.name, {
       credentials: new Credentials({did, signer})
