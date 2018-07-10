@@ -1,3 +1,5 @@
 import Spinner from './spinner/Spinner'
 import { uploadToIpfs } from './util/ipfs'
-export { Spinner, uploadToIpfs }
+import { incrementCheckins, incrementEvents } from './util/firebase'
+
+export { Spinner, uploadToIpfs, incrementCheckins, incrementEvents }
