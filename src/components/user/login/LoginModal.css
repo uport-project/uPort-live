@@ -12,6 +12,7 @@
 	background-color: #aaaaaadd; /*rgba(0,0,0,0.8);*/
 }
 
+
 .modal-content {
 	position: relative;
 	margin: 0 auto;
@@ -25,9 +26,21 @@
 	border-radius:  8px;
 	box-shadow:  0 12px 24px 0 rgba(0,0,0,0.1);
 
-	width:  50%;
+	width: calc(100% - 10px);
 	text-align: center;
 	overflow:  hidden;
+}
+
+@media screen and (min-width: 750px) {
+	.modal-content {
+		width: 75%;
+	}
+}
+
+@media screen and (min-width: 1000px) {
+	.modal-content {
+		width: 50%;
+	}
 }
 
 @keyframes fadeIn {
