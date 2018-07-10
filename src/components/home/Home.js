@@ -11,6 +11,7 @@ import uPortLogo from '../../img/uport-logo.svg'
 import './Home.css'
 
 class Home extends Component {
+
   render() {
     return (
       <main className="container">
