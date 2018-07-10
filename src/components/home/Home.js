@@ -10,6 +10,8 @@ import uPortLogo from '../../img/uport-logo.svg'
 
 import './Home.css'
 
+require('dotenv').config()
+
 class Home extends Component {
 
   render() {
