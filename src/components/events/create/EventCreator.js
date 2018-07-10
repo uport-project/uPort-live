@@ -181,8 +181,6 @@ class EventCreator extends Component {
         this.setState({endDate})
     }
 
-    console.log(`rendering: img=${iconUrl}`)
-
     return (
       <main className="container">
         <div id="bodyContent" className="ui two column stackable grid">
