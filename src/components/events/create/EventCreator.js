@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import DatePicker from 'react-datepicker'
 import { connect } from 'react-redux'
+import { Credentials } from 'uport-connect'
 import moment from 'moment'
 
 import { createEventIdentity } from './muport-id'
 import { uploadToIpfs } from '../../misc'
 import { createEvent } from './actions'
-import { uport } from '../../user'
+import { uport, web3 } from '../../user'
 
 import loadingGif from '../../../img/loading.gif'
 import uploadIcon from '../../../img/upload.png'
@@ -122,9 +123,12 @@ class EventCreator extends Component {
       return
     }
 
+    const identifier = Credentials.createIdentity()
+
     // Individual fields are taken from http://schema.org/Event 
     // and described further in schemas.md
     const eventDetails = {
+      identifier,
       organizer: authData.address,
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
@@ -153,6 +157,10 @@ class EventCreator extends Component {
         browserHistory.push('/dashboard')
       })
     })
+    // .catch((err) => {
+    //   console.log(err)
+    //   alert('Credential issuing failed ?')
+    // })
   }
 
   /**

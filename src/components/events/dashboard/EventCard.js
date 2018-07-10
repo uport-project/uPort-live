@@ -57,7 +57,7 @@ const EventCard = ({beginCheckin, isActive, ...eventData}) => {
  * @param {String} desc -- description of event
  */
 function shortenDescription(desc, length=150) {
-  if (desc.length <= length) {
+  if (desc.length <= length + 3) {
     return desc
   }
 
