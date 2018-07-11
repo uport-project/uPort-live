@@ -36,3 +36,43 @@ export function uploadToIpfs(file) {
     reader.readAsArrayBuffer(file)
   })
 }
+export function readHash(){
+  const multihash = 'QmWRgdWZokCy6cJQ3fZfw2Cgz51QCnVQSYZBpKAje5qbue'
+
+  ipfs.object.data(multihash, (err, data) => {
+    if (err) {
+      throw err
+    }
+
+    let json = JSON.stringify(data)
+    let bufferOriginal = Buffer.from(JSON.parse(json).data);
+    var personArray = Array.from(bufferOriginal)
+    console.log(personArray)
+    console.log(bufferOriginal)
+    console.log(JSON.parse(bufferOriginal));
+    // Logs:
+    // some data
+  })
+}
+
+export function putData(){
+  const dat = {
+    badgesCollected: 0,
+    eventsCreated: 0
+  }
+
+  const obj = {
+    Data: new Buffer(JSON.stringify(dat)),
+    Links:[]
+  }
+  
+  ipfs.object.put(obj, (err, node) => {
+    if (err) {
+      throw err
+    }
+    console.log(node)
+    console.log(node.toJSON().multihash)
+    // Logs:
+    // QmPb5f92FxKPYdT3QNBd1GKiL4tZUXUrzF4Hkpdr3Gf1gK
+  })
+}

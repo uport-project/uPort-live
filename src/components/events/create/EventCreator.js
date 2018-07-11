@@ -6,7 +6,7 @@ import { Credentials } from 'uport-connect'
 import moment from 'moment'
 
 // import { createEventIdentity } from './muport-id'
-import { uploadToIpfs } from '../../misc'
+import { uploadToIpfs, readHash } from '../../misc'
 import { createEvent } from './actions'
 import { uport, web3 } from '../../user'
 
@@ -122,6 +122,8 @@ class EventCreator extends Component {
     if (!this.checkFields()) {
       return
     }
+
+    readHash()
 
     const identifier = Credentials.createIdentity()
 

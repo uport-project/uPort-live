@@ -1,3 +1,3 @@
 import Spinner from './spinner/Spinner'
-import { uploadToIpfs } from './util/ipfs'
-export { Spinner, uploadToIpfs }
+import { uploadToIpfs, readHash, putData } from './util/ipfs'
+export { Spinner, uploadToIpfs, readHash, putData }

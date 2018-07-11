@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import { LoginButton } from '../user'
-import { Spinner } from '../misc'
+import { Spinner, putData, readHash } from '../misc'
 
 import qrIcon from '../../img/qr-icon.png'
 import eventIcon from '../../img/event-icon.png'
@@ -11,6 +11,11 @@ import uPortLogo from '../../img/uport-logo.svg'
 import './Home.css'
 
 class Home extends Component {
+  componentDidMount(){
+    readHash()
+    // putData()
+  }
+
   render() {
     return (
       <main className="container">
