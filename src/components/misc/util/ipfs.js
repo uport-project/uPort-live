@@ -1,11 +1,17 @@
 import IpfsAPI from 'ipfs-api'
+import { notDeepEqual } from 'assert';
 
 // Initialize IPFS
 const ipfs = IpfsAPI({
   host: 'ipfs.infura.io', 
   port: '5001', 
-  protocol: 'https'
+  protocol: 'https',
+  // headers: {
+  //   'Access-Control-Allow-Origin': '*'
+  // }
 })
+
+// const ipfs = IpfsAPI('/ip4/127.0.0.1/tcp/5001')
 
 /**
  * Return a promise that resolves to the ipfs hash of 
@@ -36,9 +42,9 @@ export function uploadToIpfs(file) {
     reader.readAsArrayBuffer(file)
   })
 }
+
 export function readHash(){
   const multihash = 'QmWRgdWZokCy6cJQ3fZfw2Cgz51QCnVQSYZBpKAje5qbue'
-
   ipfs.object.data(multihash, (err, data) => {
     if (err) {
       throw err
@@ -46,12 +52,16 @@ export function readHash(){
 
     let json = JSON.stringify(data)
     let bufferOriginal = Buffer.from(JSON.parse(json).data);
-    var personArray = Array.from(bufferOriginal)
-    console.log(personArray)
-    console.log(bufferOriginal)
-    console.log(JSON.parse(bufferOriginal));
-    // Logs:
-    // some data
+    let stats = (JSON.parse(bufferOriginal));
+    stats['badgesCollected'] += 1
+    console.log(stats);
+    // FUTURE: update IPFS JSON object. Infura IPFS does not support
+    // ipfs.object.patch.appendData(multihash, new Buffer(JSON.stringify(stats)), (err, node) => {
+    //   if (err) {
+    //     throw err
+    //   }
+    //   console.log(node.toJSON())
+    // })
   })
 }
 

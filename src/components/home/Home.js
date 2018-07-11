@@ -11,10 +11,11 @@ import uPortLogo from '../../img/uport-logo.svg'
 import './Home.css'
 
 class Home extends Component {
-  componentDidMount(){
-    readHash()
-    // putData()
-  }
+  // FUTURE: IPFS Statistics
+  // componentDidMount(){
+  //   readHash()
+  //   // putData()
+  // }
 
   render() {
     return (
