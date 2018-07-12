@@ -65,12 +65,10 @@ export class EventCheckinAttestor extends Component {
 
     // Function to initiate the checkin flow
     this.waitForCheckin = () => {
-      this.eventIdentity.requestCredentials(
-        { requested: ['address', 'name'] }, 
-        this.updateQR
-      ).then(
-        this.doCheckin
-      )
+      this.eventIdentity.requestCredentials({ 
+        requested: ['address', 'name'],
+        notifications: true
+      }, this.updateQR).then(this.doCheckin)
     }
 
     this.waitForCheckin()

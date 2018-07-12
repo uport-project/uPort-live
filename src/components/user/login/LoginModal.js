@@ -69,7 +69,7 @@ class LoginModal extends Component {
       requested: ['name', 'avatar', 'phone', 'country'],
       // This is where we request the uPort Live Events
       verified: ['uportLiveEvent'],
-      // notifications: true
+      notifications: true
     }).then((credentials) => {
       // Hack the uriHandlers back to the defaults
       uport.closeUriHandler = QRUtil.closeQr
