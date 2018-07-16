@@ -7,7 +7,7 @@ import store from './store'
 import { 
   LoginButton, LogoutButton, LoginModal,
   Home, About, FAQ, 
-  EventDashboard, EventCreator, EventCheckinAttestor,
+  EventDashboard, EventCreator, EventCheckinAttestor, VerifyEvent,
   UserIsAuthenticated, UserIsNotAuthenticated, HiddenOnlyAuth, VisibleOnlyAuth
 } from '../components'
 
@@ -34,6 +34,7 @@ const App = () => (
         <Route path="checkin" component={UserIsAuthenticated(EventCheckinAttestor)} />
         <Route path="about" component={About} />
         <Route path="faq" component={FAQ} />
+        <Route path="verify" component={VerifyEvent}/>
       </Route>
     </Router>
   </Provider>
@@ -73,6 +74,9 @@ const MenuWrapper = ({children, ...props}) => {
     <ul className="navbar-right">
       <li className="menu-item">
         <Link to="/" className="menu-link">home</Link>
+      </li>
+      <li className="menu-item">
+        <Link to="/verify" className="menu-link">verify</Link>
       </li>
       <li className="menu-item">
         <Link to="/about" className="menu-link">about</Link>
