@@ -24,7 +24,6 @@ class VerifyEvent extends Component {
     }
     componentDidMount() {
         const values = queryString.parse(this.props.location.search)
-        console.log(values)
         this.setState({event:values.event})
         this.createEventIdentity(this.props)
     }
@@ -57,14 +56,11 @@ class VerifyEvent extends Component {
       }
 
     doCheckin (data){
-        console.log(data)
         const verified = data.verified
-        console.log(verified)
         let notif = document.getElementById('verified')
         for (var i = 0; i < verified.length; i++){
             if (verified[i].claim.uportLiveEvent.identifier.did == this.state.event &&
             verified[i].sub == data.address){
-                console.log("Found event")
                 notif.innerHTML = "You're all set " + data.name + "! <i class='thumbs up outline icon'></i>"
                 notif.style.color = "green"
                 this.waitForCheckin()
@@ -72,7 +68,6 @@ class VerifyEvent extends Component {
             }
             // console.log(verified[i].claim.uportLiveEvent.identifier.did)
         }
-        console.log("Not Found")
         notif.innerHTML = "Sorry not an attendee <i class='exclamation icon'></i>"
         notif.style.color = "red"
         this.waitForCheckin()
