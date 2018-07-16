@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { Connect, SimpleSigner, Credentials, QRUtil } from 'uport-connect'
 import { connect } from 'react-redux'
+import { createJWT } from 'did-jwt'
 
 import { endCheckin } from './actions'
+import { uport } from '../../user'
 
 import uPortLogo from '../../../img/uport-logo.svg'
 
@@ -48,26 +50,20 @@ export class EventCheckinAttestor extends Component {
     const {identifier, ...details} = props.eventData
 
     // Build the credential to be issued to people
-    this.claim = {
-      uportLiveAttendance: details
-    }
+    this.claim = details
 
     // Create a connect instance for the Event's keypair
     const {did, privateKey} = identifier
     const signer = new SimpleSigner(privateKey)
 
-    this.eventIdentity = new Connect(details.name, {
-      credentials: new Credentials({did, signer})
-    })
+    this.eventIdentity = {issuer: did, signer}
 
     // Function to initiate the checkin flow
     this.waitForCheckin = () => {
-      this.eventIdentity.requestCredentials(
-        { requested: ['address', 'name'] }, 
-        this.updateQR
-      ).then(
-        this.doCheckin
-      )
+      uport.requestCredentials({ 
+        requested: ['address', 'name'],
+        // notifications: true
+      }, this.updateQR).then(this.doCheckin)
     }
 
     this.waitForCheckin()
@@ -88,14 +84,21 @@ export class EventCheckinAttestor extends Component {
   doCheckin({address}) {
     const {checkinCount} = this.state
 
-    // Push the attendance credential
-    this.eventIdentity.attestCredentials({
-      sub: address,
-      claim: this.claim
+    // Sign the attendee field as a JWT
+    createJWT({attendee: address}, this.eventIdentity).then((signature) => {
+      const claim = {
+        uportLiveAttendance: {...this.claim, signature}
+      }
+
+      // Push the attendance credential
+      uport.attestCredentials({
+        sub: address, claim
+      })
+
+      // Update the checkin count
+      this.setState({checkinCount: checkinCount + 1})
     })
 
-    // Update the checkin count
-    this.setState({checkinCount: checkinCount + 1})
 
     // Restart the flow
     this.waitForCheckin()
@@ -107,7 +110,6 @@ export class EventCheckinAttestor extends Component {
     const {checkinCount, QR} = this.state
     const location = eventData && eventData.location
     const about = eventData && eventData.about
-    console.log(eventData)
 
     return (
       <main className="container">
