@@ -21,7 +21,7 @@ const EventCard = ({beginCheckin, isActive, ...eventData}) => {
 
   const verify = (event) => {
     event.preventDefault()
-    browserHistory.push('/verify/?event=hi')
+    browserHistory.push('/verify/?event=' + eventData.identifier.did)
   }
 
   // Extract event data for display

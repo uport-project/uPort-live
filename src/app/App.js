@@ -75,9 +75,9 @@ const MenuWrapper = ({children, ...props}) => {
       <li className="menu-item">
         <Link to="/" className="menu-link">home</Link>
       </li>
-      <li className="menu-item">
+      {/* <li className="menu-item">
         <Link to="/verify" className="menu-link">verify</Link>
-      </li>
+      </li> */}
       <li className="menu-item">
         <Link to="/about" className="menu-link">about</Link>
       </li>
