@@ -53,25 +53,34 @@ class EventVerifier extends Component {
 
 
     //verified[i].sub == data.address
-    doVerify (data){
-        const verified = data.verified
+    doVerify ({verified}) {
+        const { event } = this.state
         // TODO: Change conditional react display
         // let notif = document.getElementById('verified')
-        let verifiedJWT;
-        for (var i = 0; i < verified.length; i++){
-            verifiedJWT = verified[i].claim.uportLiveAttendance.signature
-            console.log("Got here")
-            console.log(verifiedJWT)
-            verifyJWT(verifiedJWT).then(obj => {
-                console.log(obj)
-                // notif.innerHTML = "You're all set " + data.name + "! <i class='thumbs up outline icon'></i>"
-                // notif.style.color = "green"
-                // this.waitForCheckin()
-                // notif.innerHTML = "Sorry not an attendee <i class='exclamation icon'></i>"
-                // notif.style.color = "red"
-                this.waitForVerify()
-            })
+        for (var i = 0; i < verified.length; i++) {
+            const { signature } = verified[i].claim.uportLiveAttendance
+            if (signature) {
+                verifyJWT(signature).then(obj => {
+                    console.log(obj)
+                    // CHECK FOR VALID Attendee field
+
+                    // notif.innerHTML = "You're all set " + data.name + "! <i class='thumbs up outline icon'></i>"
+                    // notif.style.color = "green"
+                    // this.waitForCheckin()
+                    // notif.innerHTML = "Sorry not an attendee <i class='exclamation icon'></i>"
+                    // notif.style.color = "red"
+                    this.waitForVerify()
+                    return
+                })
+            } else if (verified[i].iss === event) {
+                // ALSO SUCCESS
+                console.log('New style credential, signed by event')
+                console.log(verified[i])
+            }
         }
+
+        // FAILURE
+
     }
 
     render(){
