@@ -4,6 +4,7 @@ import { QRUtil } from 'uport-connect'
 import { uport } from '../../user/util'
 
 import queryString from 'query-string'
+import {verifyJWT} from 'did-jwt'
 
 /**
  * @classdesc
@@ -11,7 +12,7 @@ import queryString from 'query-string'
  *
  */
 // const VerifyEvent = ({did}) => {
-class VerifyEvent extends Component {
+class EventVerifier extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -19,18 +20,13 @@ class VerifyEvent extends Component {
             event: ""
         }
 
-        this.doCheckin = this.doCheckin.bind(this)
+        this.doVerify = this.doVerify.bind(this)
         this.updateQR = this.updateQR.bind(this)
     }
     componentDidMount() {
         const values = queryString.parse(this.props.location.search)
         this.setState({event:values.event})
         this.createEventIdentity(this.props)
-    }
-
-    returnDashboard = (event) => {
-        event.preventDefault()
-        browserHistory.push('/dashboard')
     }
 
     /**
@@ -43,34 +39,39 @@ class VerifyEvent extends Component {
 
     createEventIdentity() {
         // Function to initiate the checkin flow
-        this.waitForCheckin = () => {
+        this.waitForVerify = () => {
           uport.requestCredentials(
-            { requested:['name'], verified: ['uportLiveEvent'] }, 
+            { requested:['name'], verified: ['uportLiveAttendance'] }, 
             this.updateQR
           ).then((data) => {
-            this.doCheckin(data)
+            this.doVerify(data)
           })
         }
     
-        this.waitForCheckin()
+        this.waitForVerify()
       }
 
-    doCheckin (data){
+
+    //verified[i].sub == data.address
+    doVerify (data){
         const verified = data.verified
-        let notif = document.getElementById('verified')
+        // TODO: Change conditional react display
+        // let notif = document.getElementById('verified')
+        let verifiedJWT;
         for (var i = 0; i < verified.length; i++){
-            if (verified[i].claim.uportLiveEvent.identifier.did == this.state.event &&
-            verified[i].sub == data.address){
-                notif.innerHTML = "You're all set " + data.name + "! <i class='thumbs up outline icon'></i>"
-                notif.style.color = "green"
-                this.waitForCheckin()
-                return
-            }
-            // console.log(verified[i].claim.uportLiveEvent.identifier.did)
+            verifiedJWT = verified[i].claim.uportLiveAttendance.signature
+            console.log("Got here")
+            console.log(verifiedJWT)
+            verifyJWT(verifiedJWT).then(obj => {
+                console.log(obj)
+                // notif.innerHTML = "You're all set " + data.name + "! <i class='thumbs up outline icon'></i>"
+                // notif.style.color = "green"
+                // this.waitForCheckin()
+                // notif.innerHTML = "Sorry not an attendee <i class='exclamation icon'></i>"
+                // notif.style.color = "red"
+                this.waitForVerify()
+            })
         }
-        notif.innerHTML = "Sorry not an attendee <i class='exclamation icon'></i>"
-        notif.style.color = "red"
-        this.waitForCheckin()
     }
 
     render(){
@@ -80,7 +81,7 @@ class VerifyEvent extends Component {
                 <div className="row">
                     <div className="six wide column">
                     <br></br><br></br>
-                    <div onClick={this.returnDashboard} className="ui animated button" tabIndex="0">
+                    <div onClick={() => browserHistory.push('/dashboard')} className="ui animated button" tabIndex="0">
                         <div className="visible content">Back</div>
                         <div className="hidden content">
                         <i className="left arrow icon"></i>
@@ -108,4 +109,4 @@ class VerifyEvent extends Component {
 
 
 
-export default VerifyEvent
+export default EventVerifier

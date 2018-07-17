@@ -20,7 +20,6 @@ const EventCard = ({beginCheckin, isActive, ...eventData}) => {
   }
 
   const verify = (event) => {
-    event.preventDefault()
     browserHistory.push('/verify/?event=' + eventData.identifier.did)
   }
 

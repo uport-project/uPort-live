@@ -3,13 +3,13 @@ import {
   Profile, LoginButton, LoginModal, LogoutButton, uport,
   UserIsAuthenticated, UserIsNotAuthenticated, HiddenOnlyAuth, VisibleOnlyAuth 
 } from './user'
-import { EventDashboard, EventCreator, EventCheckinAttestor, VerifyEvent } from './events'
+import { EventDashboard, EventCreator, EventCheckinAttestor, EventVerifier } from './events'
 
 /** All exported top-level components */
 export {
   uport,
   About, FAQ, Home, Profile, 
   LoginButton, LoginModal, LogoutButton, 
-  EventDashboard, EventCreator, EventCheckinAttestor, VerifyEvent,
+  EventDashboard, EventCreator, EventCheckinAttestor, EventVerifier,
   UserIsAuthenticated, UserIsNotAuthenticated, HiddenOnlyAuth, VisibleOnlyAuth
 }
