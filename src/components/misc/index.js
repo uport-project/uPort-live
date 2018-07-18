@@ -1,3 +1,5 @@
-import Spinner from './spinner/Spinner'
 import { uploadToIpfs } from './util/ipfs'
-export { Spinner, uploadToIpfs }
+import QRModal from './QRModal'
+import { Modal, MODALS, showSpinner, showModal, cancelModal, reducer as modalReducer } from './modal'
+
+export { Modal, MODALS, QRModal, showSpinner, showModal, cancelModal, modalReducer, uploadToIpfs }

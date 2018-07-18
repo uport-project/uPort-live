@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import DatePicker from 'react-datepicker'
 import { connect } from 'react-redux'
+import { QRUtil } from 'uport-connect'
 import moment from 'moment'
 
 import { createEventIdentity } from './muport-id'
-import { uploadToIpfs } from '../../misc'
+import { uploadToIpfs, showSpinner, showModal, MODALS } from '../../misc'
 import { createEvent } from './actions'
 import { uport, web3 } from '../../user'
 
@@ -114,7 +115,7 @@ class EventCreator extends Component {
    */
   handleSubmit(event) {
     event.preventDefault()
-    const {authData, createEvent} = this.props
+    const {authData, createEvent, showQrModal, showSpinner} = this.props
     const {name, location, startDate, endDate, description, iconUrl} = this.state
 
     // Return early if invalid
@@ -136,27 +137,33 @@ class EventCreator extends Component {
       eventDetails.image = iconUrl
     }
 
+    // Hack the open/close uri handlers
+    uport.uriHandler = showQrModal
+    uport.closeUriHandler = showSpinner
+
+    // The muport identity takes a little while to create, so show a spinner
+    showSpinner('Creating event identity...')
+
     // Create an event identity by serializing the muport profile
     createEventIdentity(eventDetails).then(({did, keyring}) => {
       // Use the mnemonic as the identity
       const {mnemonic} = keyring.serialize()
       eventDetails.identifier = {mnemonic, did}
 
-      // Issue the attestation
+      // Issue the attestation (and dismiss the spinner)
       uport.attestCredentials({
         sub: authData.address,
         claim: {
           uportLiveEvent: eventDetails
         }
       }).then(() => {
+        // Restore the URI handlers
+        uport.uriHandler = QRUtil.openQr
+        uport.closeUriHandler = QRUtil.closeQr
         createEvent(eventDetails)
         browserHistory.push('/dashboard')
       })
     })
-    // .catch((err) => {
-    //   console.log(err)
-    //   alert('Credential issuing failed ?')
-    // })
   }
 
   /**
@@ -248,7 +255,9 @@ class EventCreator extends Component {
 const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
-    createEvent: eventData => dispatch(createEvent(eventData))
+  createEvent: (eventData) => dispatch(createEvent(eventData)),
+  showQrModal: (uri) => dispatch(showModal(MODALS.QR, {uri})),
+  showSpinner: () => dispatch(showSpinner()),
 })
 
 export default connect(
