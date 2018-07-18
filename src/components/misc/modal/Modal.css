@@ -31,13 +31,13 @@
 	overflow:  hidden;
 }
 
-@media screen and (min-width: 750px) {
+@media screen and (min-width: 950px) {
 	.modal-content {
 		width: 75%;
 	}
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 1300px) {
 	.modal-content {
 		width: 50%;
 	}

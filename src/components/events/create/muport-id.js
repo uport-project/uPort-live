@@ -8,6 +8,7 @@ const IPFS_CONF = {
 
 const muportOpts = {
   ipfsConf: IPFS_CONF,
+  // Address of Rinkeby registry
   externalMgmtKey: '0x2cc31912b2b0f3075a87b3640923d45a26cef3ee',
   rpcProviderUrl: `https://rinkeby.infura.io/`,
 }

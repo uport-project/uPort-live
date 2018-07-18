@@ -142,7 +142,7 @@ class EventCreator extends Component {
     uport.closeUriHandler = showSpinner
 
     // The muport identity takes a little while to create, so show a spinner
-    showSpinner('Creating event identity...')
+    showSpinner('Creating event identity, this may take a minute...')
 
     // Create an event identity by serializing the muport profile
     createEventIdentity(eventDetails).then(({did, keyring}) => {
@@ -256,8 +256,8 @@ const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
   createEvent: (eventData) => dispatch(createEvent(eventData)),
-  showQrModal: (uri) => dispatch(showModal(MODALS.QR, {uri})),
-  showSpinner: () => dispatch(showSpinner()),
+  showQrModal: (uri, _, appName) => dispatch(showModal(MODALS.QR, {uri, appName})),
+  showSpinner: (message) => dispatch(showSpinner(message)),
 })
 
 export default connect(
