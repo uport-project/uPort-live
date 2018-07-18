@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { LoginButton } from '../user'
 
@@ -37,19 +37,19 @@ const Home = () => (
       <div id="imagerow" className="row">
         <div className="column center aligned">
           <div className="imgbox">
-            <img className="feature" src={eventIcon} />
+            <img className="feature" src={eventIcon} alt="Create an Event" />
           </div>
           <h3>Create an Event</h3>
         </div>
         <div className="column center aligned">
           <div className="imgbox">
-            <img className="feature" src={qrIcon} />
+            <img className="feature" src={qrIcon} alt="Check-in attendees" />
           </div>
           <h3>Check-in Attendees</h3>
         </div>
         <div className="column center aligned">
           <div className="imgbox">
-            <img className="feature" src={credentialIcon} />
+            <img className="feature" src={credentialIcon} alt="Verify Proof-of-Attendance" />
           </div>
           <h3>Verify Proof-of-Attendance</h3>
         </div>

@@ -8,7 +8,7 @@ import moment from 'moment'
 import { createEventIdentity } from './muport-id'
 import { uploadToIpfs, showSpinner, showModal, MODALS } from '../../misc'
 import { createEvent } from './actions'
-import { uport, web3 } from '../../user'
+import { uport } from '../../user'
 
 import loadingGif from '../../../img/loading.gif'
 import uploadIcon from '../../../img/upload.png'
@@ -199,14 +199,14 @@ class EventCreator extends Component {
             <div id="left" className="six wide column">
               <h3>Use the form on this page to create an event</h3>
               <h3>The information entered here will be given to attendees when they check-in as part of their badge.  Be sure to double check each field, as they can't be edited later!</h3>
-              <img id="sample-image" src={eventImage} />
+              <img id="sample-image" src={eventImage} alt="Attestation as seen in mobile app" />
             </div>
 
             <div id="right" className="ten wide column">
               <h1>Create an Event
                 <label htmlFor="image" className="image-upload">
                   <input type="file" name="image" onChange={this.handleFileUpload}/>
-                  <img id="event-icon" src={iconUrl} width={40} height={40} />
+                  <img id="event-icon" src={iconUrl} width={40} height={40} alt="Click to upload an event icon" />
                 </label>
               </h1>
 

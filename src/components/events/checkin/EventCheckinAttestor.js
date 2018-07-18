@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import { Connect, SimpleSigner, Credentials, QRUtil } from 'uport-connect'
+import { QRUtil } from 'uport-connect'
 import { connect } from 'react-redux'
 import { createJWT } from 'did-jwt'
 import Keyring from 'muport-core/lib/keyring'
 
 import { endCheckin } from './actions'
 import { uport } from '../../user'
-
-import uPortLogo from '../../../img/uport-logo.svg'
 
 /**
  * @classdesc
@@ -111,7 +109,6 @@ export class EventCheckinAttestor extends Component {
     const {returnToDashboard, eventData} = this.props
     const name = eventData && eventData.name
     const {checkinCount, QR} = this.state
-    const location = eventData && eventData.location
     const about = eventData && eventData.about
 
     return (
@@ -132,10 +129,7 @@ export class EventCheckinAttestor extends Component {
               <p>{about}</p>
             </div>
             <div className="ten wide column">
-              <img src={QR} />
-              {/*<button className="ui button" id="checkin" onClick={this.doCheckin} disabled={!eventData}>
-                <img className="uport-logo-icon" src={uPortLogo} alt="UPort Logo" />Check in with uPort
-              </button>*/}
+              <img src={QR} alt="Scan QR code with uPort mobile app" />
               <h5>{checkinCount} attendees checked in so far</h5>
             </div>
           </div>

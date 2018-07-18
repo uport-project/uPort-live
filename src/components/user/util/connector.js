@@ -1,5 +1,4 @@
 import { Connect, SimpleSigner } from 'uport-connect'
-import { Credentials } from 'uport'
 
 /**********************************************************************
  * Use a client-side signer with a junk key.

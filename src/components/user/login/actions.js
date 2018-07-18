@@ -1,6 +1,5 @@
 import { browserHistory } from 'react-router'
 
-import { uport } from '../util/connector'
 import { createEvent } from '../../events'
 
 export const USER_LOGGED_IN = 'USER_LOGGED_IN'
