@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux' 
+
 import consensysLogo from '../../../img/consensys-logo.png'
 import './Spinner.css'
 
@@ -7,9 +9,18 @@ import './Spinner.css'
  */
 const Spinner = ({message}) => (
 	<div className="spinner-wrapper">
-    <em>{message}</em>
+    <em className="spinner-message">{message}</em>
 	  <img className="spinner" src={consensysLogo} alt="Just a moment..." />
 	</div>
 )
 
-export default Spinner
+const mapStateToProps = (state, props) => ({
+  message: state.modal.props.message
+})
+
+const mapDispatchToProps = () => ({})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Spinner)

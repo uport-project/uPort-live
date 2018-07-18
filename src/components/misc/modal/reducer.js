@@ -24,7 +24,7 @@ const reducer = (state = defaultState, {payload, type}) => {
       return {
         spinner: true,
         modalId: null, 
-        props: {}
+        props: {message: payload}
       }
     default:
       return state
