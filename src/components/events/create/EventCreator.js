@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import DatePicker from 'react-datepicker'
 import { connect } from 'react-redux'
-import { Credentials } from 'uport-connect'
+import { Credentials, QRUtil } from 'uport-connect'
 import moment from 'moment'
 
 // import { createEventIdentity } from './muport-id'
-import { uploadToIpfs } from '../../misc'
+import { uploadToIpfs, showSpinner, showModal, MODALS } from '../../misc'
 import { createEvent } from './actions'
 import { uport, web3 } from '../../user'
 
@@ -115,7 +115,7 @@ class EventCreator extends Component {
    */
   handleSubmit(event) {
     event.preventDefault()
-    const {authData, createEvent} = this.props
+    const {authData, createEvent, showQrModal, showSpinner} = this.props
     const {name, location, startDate, endDate, description, iconUrl} = this.state
 
     // Return early if invalid
@@ -140,6 +140,10 @@ class EventCreator extends Component {
       eventDetails.image = iconUrl
     }
 
+    // Hack the open/close uri handlers
+    uport.uriHandler = showQrModal
+    uport.closeUriHandler = showSpinner
+
     // Issue the attestation
     uport.attestCredentials({
       sub: authData.address,
@@ -147,6 +151,9 @@ class EventCreator extends Component {
         uportLiveEvent: eventDetails
       }
     }).then(() => {
+      // Restore the URI handler
+      uport.uriHandler = QRUtil.openQr
+      uport.closeUriHandler = QRUtil.closeQr
       createEvent(eventDetails)
       browserHistory.push('/dashboard')
     })
@@ -245,7 +252,9 @@ class EventCreator extends Component {
 const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
-    createEvent: eventData => dispatch(createEvent(eventData))
+  createEvent: (eventData) => dispatch(createEvent(eventData)),
+  showQrModal: (uri) => dispatch(showModal(MODALS.QR, {uri})),
+  showSpinner: () => dispatch(showSpinner()),
 })
 
 export default connect(

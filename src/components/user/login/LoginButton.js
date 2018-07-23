@@ -1,21 +1,29 @@
 import React from 'react'
-import { browserHistory } from 'react-router'
+import { connect } from 'react-redux'
+
+import { showModal, MODALS } from '../../misc'
 
 /**
  * Simple login component, accepts a click handler function, extra styles for the button
  * element, and children to display inside of the button
  */
-const LoginButton = ({ onLoginUserClick, style, children }) => {
-  const currentLocation = browserHistory.getCurrentLocation()
-
+const LoginButton = ({style, children, showLoginModal}) => {
   return (
     <div className="login-container menu-item">
   		<button href="#" className="login-button" style={style} 
-        onClick={() => browserHistory.push(currentLocation.pathname + '?login')}>
+        onClick={showLoginModal}>
         {children}
       </button>
     </div>
   )
 }
 
-export default LoginButton
+const mapStateToProps = () => ({})
+const mapDispatchToProps = (dispatch, props) => ({
+  showLoginModal: () => dispatch(showModal(MODALS.Login))
+})
+
+export default connect(
+  mapStateToProps, 
+  mapDispatchToProps
+)(LoginButton)

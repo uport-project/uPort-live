@@ -1,15 +1,18 @@
 import { Home, About, FAQ } from './home'
 import { 
-  Profile, LoginButton, LoginModal, LogoutButton, uport,
-  UserIsAuthenticated, UserIsNotAuthenticated, HiddenOnlyAuth, VisibleOnlyAuth 
+  Profile, LoginButton, LoginModal, LogoutButton, 
+  UserIsAuthenticated, UserIsNotAuthenticated, 
+  HiddenOnlyAuth, VisibleOnlyAuth 
 } from './user'
 import { EventDashboard, EventCreator, EventCheckinAttestor, EventVerifier } from './events'
+import AppWrapper from './wrappers'
 
 /** All exported top-level components */
 export {
-  uport,
+  AppWrapper,
   About, FAQ, Home, Profile, 
   LoginButton, LoginModal, LogoutButton, 
   EventDashboard, EventCreator, EventCheckinAttestor, EventVerifier,
-  UserIsAuthenticated, UserIsNotAuthenticated, HiddenOnlyAuth, VisibleOnlyAuth
+  UserIsAuthenticated, UserIsNotAuthenticated, 
+  HiddenOnlyAuth, VisibleOnlyAuth
 }

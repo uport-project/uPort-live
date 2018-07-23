@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import { browserHistory } from  'react-router'
 import { connect } from 'react-redux'
 import { QRUtil } from 'uport-connect'
 
+import { showSpinner } from '../../misc'
 import { loginUser } from './actions'
-import { Spinner } from '../../misc'
 import { uport } from '../util/connector'
 
-import './LoginModal.css'
 import appleButton from '../../../img/apple-app.svg'
 import androidButton from '../../../img/android-app.svg'
 
@@ -26,25 +24,12 @@ class LoginModal extends Component {
     super(props)
 
     this.state = {
-      showSpinner: false,
       QR: null,
       appName: '',
     }
 
     this.uriHandler = this.uriHandler.bind(this)
-    this.cancelLogin = this.cancelLogin.bind(this)
   }
-
-  /**
-   * Make sure that any new login window doesn't show the spinner
-   * Since the closeUriHandler is fired when the dialog is abandoned,
-   * this can happen if the login modal is closed and quickly reopened 
-   * on the same page.  This fixes it.
-   */
-  componentWillReceiveProps() {
-    this.setState({showSpinner: false})
-  }
-
 
   /**
    * On the first mount, we begin the login request, and monkeypatch
@@ -52,16 +37,13 @@ class LoginModal extends Component {
    * be done once, as subsequent renders will have the same login QR
    */
   componentDidMount() {
-    const { doLogin } = this.props
+    const { doLogin, showSpinner } = this.props
 
     // SUPER HACK ALERT
     // Monkey-patching the uri-handlers because if you specify a specific
     // Uri-handler, the closeUriHandler never fires.  
-    // Fuck, this took me so long to figure out
     uport.uriHandler = this.uriHandler
-    uport.closeUriHandler = () => {
-      this.setState({showSpinner: true})
-    }
+    uport.closeUriHandler = showSpinner
 
     // UPort and its web3 instance are defined in ../../../util/wrappers.
     // Request uPort persona of account passed via QR
@@ -88,38 +70,20 @@ class LoginModal extends Component {
     this.setState({QR, appName, cancel})
   }
 
-  /**
-   * Cancel handler if the login is aborted.
-   * Redirects back to the original page (kills the modal)
-   * and cancels the listener on the messaging server
-   */
-  cancelLogin() {
-    const { pathname } = browserHistory.getCurrentLocation()
-    browserHistory.push(pathname)
-  }
-
   render() {
-    const { showSpinner, QR, appName} = this.state
+    const { QR, appName } = this.state
 
     return (
-      <div className="modal fade-in" onClick={this.cancelLogin}>
-        {showSpinner ? (
-          <Spinner />
-        ) : (
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="cancel"
-              onClick={this.cancelLogin}>x</button>
-            <h2> Login to <strong className="purple">{appName}</strong></h2>
-            <em>Scan the QR code with your uPort Mobile App</em><br/>
-            <img src={QR} alt="Login QR Code - Scan with uPort Mobile App" />
-            <hr/>
-            <h3 style={{marginBottom: '1em'}}>Don't have uPort?</h3>
-            <div className="buttons">
-              <a href={apppleStoreLink}><img src={appleButton} alt="download from app store" /></a>
-              <a href={googleStoreLink}><img src={androidButton} alt="download from google play store" /></a>
-            </div>
-          </div>
-        )}
+      <div className="login-form" onClick={(e) => e.stopPropagation()}>
+        <h2> Login to <strong className="purple">{appName}</strong></h2>
+        <em>Scan the QR code with your uPort Mobile App</em><br/>
+        <img src={QR} alt="Login QR Code - Scan with uPort Mobile App" />
+        <hr/>
+        <h3 style={{marginBottom: '1em'}}>Don't have uPort?</h3>
+        <div className="buttons">
+          <a href={apppleStoreLink}><img src={appleButton} alt="download from app store" /></a>
+          <a href={googleStoreLink}><img src={androidButton} alt="download from google play store" /></a>
+        </div>
       </div>
     )
   }
@@ -129,9 +93,8 @@ const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    doLogin: (credentials) => {
-      dispatch(loginUser(credentials))
-    }
+    doLogin: (credentials) => dispatch(loginUser(credentials)),
+    showSpinner: () => dispatch(showSpinner())
   }
 }
 
