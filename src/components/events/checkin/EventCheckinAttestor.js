@@ -53,10 +53,9 @@ export class EventCheckinAttestor extends Component {
     this.claim = details
 
     // Create a connect instance for the Event's keypair
-    const {did, privateKey} = identifier
+    const {privateKey, did} = identifier
     const signer = new SimpleSigner(privateKey)
-
-    this.eventIdentity = {issuer: did, signer}
+    this.eventIdentity = {issuer: did, signer, alg: 'ES256K-R'}
 
     // Function to initiate the checkin flow
     this.waitForCheckin = () => {

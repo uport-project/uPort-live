@@ -1,12 +1,5 @@
 import Modal from './Modal'
 import reducer from './reducer'
-import { showSpinner, showModal, cancelModal } from './actions'
+import { showSpinner, showModal, cancelModal, whichModal, registerModal } from './actions'
 
-// Define available modal ids
-const MODALS = {
-  Login: 'LOGIN',
-  QR: 'QR',
-  Verify: 'VERIFY'
-}
-
-export { Modal, MODALS, showSpinner, showModal, cancelModal, reducer }
+export { Modal, whichModal, registerModal, showSpinner, showModal, cancelModal, reducer }

@@ -1,24 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { Modal, QRModal, MODALS } from '../misc'
-
-import { LoginModal } from '../user'
-// import { CheckinModal, VerifyModal } from '../events'
-
-const whichModal = {
-  [MODALS.Login]: LoginModal,
-  [MODALS.QR]: QRModal,
-  // [MODALS.Verify]: <VerifyModal />
-}
+import { Modal, whichModal } from '../misc'
 
 /**
  * A Wrapper around the application, determining if a modal
  * should be displayed and which one
  */
 const ModalWrapper = ({ modalId, modalProps, spinner, children }) => {
-  const ModalContents = whichModal[modalId]
-
+  const ModalContents = whichModal(modalId)
+  
   return (
   	<React.Fragment>
       {(modalId || spinner) &&

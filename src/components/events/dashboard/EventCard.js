@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
+import { browserHistory } from 'react-router'
 
 import './EventCard.css'
 
@@ -16,6 +17,10 @@ const EventCard = ({beginCheckin, isActive, ...eventData}) => {
   const checkin = (event) => {
     event.preventDefault()
     beginCheckin(eventData)
+  }
+
+  const verify = (event) => {
+    browserHistory.push('/verify/?event=' + eventData.identifier.did)
   }
 
   // Extract event data for display
@@ -43,8 +48,13 @@ const EventCard = ({beginCheckin, isActive, ...eventData}) => {
         </div>
       </div>
       {isActive && (
-        <div className="ui bottom attached button" onClick={checkin}>
-          <i className="add icon"></i>Check in
+        <div className="ui two buttons">
+          <div className="ui bottom attached button" onClick={checkin}>
+            <i className="add icon"></i>Check in
+          </div>
+          <div className="ui bottom attached button" onClick={verify}>
+            <i className="add icon"></i>Verify
+          </div>
         </div>
       )}
     </div>

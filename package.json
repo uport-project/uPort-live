@@ -53,11 +53,13 @@
   },
   "dependencies": {
     "ethr-did": "^0.0.5",
+    "ethr-did-resolver": "0.0.8",
     "font-awesome": "^4.7.0",
     "ipfs-api": "^22.2.1",
     "markdown-to-jsx": "^6.6.8",
     "moment": "^2.22.2",
     "muport-core": "^0.3.1",
+    "query-string": "^6.1.0",
     "react": "^16.4.1",
     "react-datepicker": "^1.5.0",
     "react-dom": "^16.4.1",

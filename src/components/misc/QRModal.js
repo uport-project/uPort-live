@@ -1,5 +1,6 @@
 import React from 'react'
 import { QRUtil } from 'uport-connect'
+import { registerModal } from './modal'
 
 const DEFAULT_MESSAGE = 'Scan the QR code below with your uPort mobile app'
 
@@ -16,5 +17,8 @@ const QRModal = ({uri, message=DEFAULT_MESSAGE}) => {
 		</div>
 	)
 }
+
+// Register QR modal component
+registerModal('QRModal', QRModal)
 
 export default QRModal

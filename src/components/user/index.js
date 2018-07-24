@@ -13,8 +13,12 @@ import { logoutUser } from './logout/actions'
 
 import userReducer from './reducer'
 
+// Make Login Modal available in global context
+import { registerModal } from '../misc'
+registerModal('LoginModal', LoginModal)
+
 /** Export Comopnents */
-export { 
+export {
   Profile, LoginButton, LoginModal, LogoutButton,
   UserIsAuthenticated, UserIsNotAuthenticated, HiddenOnlyAuth, VisibleOnlyAuth
 }

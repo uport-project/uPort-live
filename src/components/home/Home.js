@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import { VerifyEvent } from '../events'
 import { LoginButton } from '../user'
 
 import qrIcon from '../../img/qr-icon.png'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { showModal, MODALS } from '../../misc'
+import { showModal } from '../../misc'
 
 /**
  * Simple login component, accepts a click handler function, extra styles for the button
@@ -20,7 +20,7 @@ const LoginButton = ({style, children, showLoginModal}) => {
 
 const mapStateToProps = () => ({})
 const mapDispatchToProps = (dispatch, props) => ({
-  showLoginModal: () => dispatch(showModal(MODALS.Login))
+  showLoginModal: () => dispatch(showModal('LoginModal'))
 })
 
 export default connect(

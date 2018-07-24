@@ -7,7 +7,7 @@ import store from './store'
 import {
   AppWrapper,
   Home, About, FAQ, 
-  EventDashboard, EventCreator, EventCheckinAttestor,
+  EventDashboard, EventCreator, EventCheckinAttestor, EventVerifier,
   UserIsAuthenticated, UserIsNotAuthenticated
 } from '../components'
 
@@ -34,6 +34,7 @@ const App = () => (
         <Route path="checkin" component={UserIsAuthenticated(EventCheckinAttestor)} />
         <Route path="about" component={About} />
         <Route path="faq" component={FAQ} />
+        <Route path="verify" component={EventVerifier}/>
       </Route>
     </Router>
   </Provider>
