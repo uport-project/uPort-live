@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { QRUtil } from 'uport-connect'
 
-import { showSpinner } from '../../misc'
+import { showSpinner, registerModal } from '../../misc'
 import { loginUser } from './actions'
 import { uport } from '../util/connector'
 
