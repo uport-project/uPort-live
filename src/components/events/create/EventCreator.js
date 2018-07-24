@@ -253,7 +253,7 @@ const mapStateToProps = (state, ownProps) => ({})
 
 const mapDispatchToProps = dispatch => ({
   createEvent: (eventData) => dispatch(createEvent(eventData)),
-  showQrModal: (uri) => dispatch(showModal(MODALS.QR, {uri})),
+  showQrModal: (uri) => dispatch(showModal('QRModal', {uri})),
   showSpinner: () => dispatch(showSpinner()),
 })
 

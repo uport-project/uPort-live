@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "ethr-did": "^0.0.5",
+    "ethr-did-resolver": "0.0.8",
     "font-awesome": "^4.7.0",
     "ipfs-api": "^22.2.1",
     "markdown-to-jsx": "^6.6.8",

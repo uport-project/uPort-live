@@ -1,4 +1,4 @@
-import EventVerifier from './Verify'
+import EventVerifier from './EventVerifier'
 
 /** Exported components */
 export { EventVerifier }
